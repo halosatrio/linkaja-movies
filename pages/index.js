@@ -50,7 +50,12 @@ export default function Home() {
               }
             })
             .map((item) => (
-              <Card key={item.id} title={item.title} showTime={item.showTime} />
+              <Card
+                key={item.id}
+                title={item.title}
+                showTime={item.showTime}
+                uid={item.id}
+              />
             ))}
         </div>
       </div>

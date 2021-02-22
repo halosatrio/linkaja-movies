@@ -3,6 +3,7 @@ import axios from "axios";
 
 import Head from "next/head";
 import Card from "../components/Card";
+import SearchBar from "../components/SearchBar";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -29,8 +30,9 @@ export default function Home() {
       <Head>
         <title>LinkAja - Movies Database</title>
       </Head>
-      <body className="py-8 px-3">
-        <h1 className="mb-8 text-4xl">Link aja Movies Database</h1>
+      <div className="py-8 px-3">
+        <h1 className="text-center mb-8 text-4xl">Link aja Movies Database</h1>
+        <SearchBar />
         <div className="grid grid-cols-3 gap-4">
           {data.map((item) => (
             <Card
@@ -41,7 +43,7 @@ export default function Home() {
             </Card>
           ))}
         </div>
-      </body>
+      </div>
     </>
   );
 }

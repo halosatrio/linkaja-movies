@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar";
 export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +26,10 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const searching = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -32,16 +37,21 @@ export default function Home() {
       </Head>
       <div className="py-8 px-3">
         <h1 className="text-center mb-8 text-4xl">Link aja Movies Database</h1>
-        <SearchBar />
-        <div className="grid grid-cols-3 gap-4">
-          {data.map((item) => (
-            <Card
-              className="rounded-lg border-black border-2 p-4 text-center"
-              key={item.id}
-            >
-              {item.title}
-            </Card>
-          ))}
+        <SearchBar searching={searching} />
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
+          {data
+            .filter((val) => {
+              if (searchTerm == "") {
+                return val;
+              } else if (
+                val.title.toLowerCase().includes(searchTerm.toLowerCase())
+              ) {
+                return val;
+              }
+            })
+            .map((item) => (
+              <Card key={item.id} title={item.title} showTime={item.showTime} />
+            ))}
         </div>
       </div>
     </>

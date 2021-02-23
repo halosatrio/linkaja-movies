@@ -9,6 +9,11 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  // const data = [
+  //   { title: "Hakuna Matata", id: 1, showTime: new Date() },
+  //   { title: "Lion King", id: 2, showTime: new Date() },
+  //   { title: "Hercules", id: 3, showTime: new Date() },
+  // ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,29 +40,33 @@ export default function Home() {
       <Head>
         <title>LinkAja - Movies Database</title>
       </Head>
-      <div className="py-8 px-3">
+      <div className="py-8 px-6 sm:px-8">
         <h1 className="text-center mb-8 text-4xl">Link aja Movies Database</h1>
         <SearchBar searching={searching} />
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
-          {data
-            .filter((val) => {
-              if (searchTerm == "") {
-                return val;
-              } else if (
-                val.title.toLowerCase().includes(searchTerm.toLowerCase())
-              ) {
-                return val;
-              }
-            })
-            .map((item) => (
-              <Card
-                key={item.id}
-                title={item.title}
-                showTime={item.showTime}
-                uid={item.id}
-              />
-            ))}
-        </div>
+        {loading ? (
+          <h1 className="text-xl text-center">Loading...</h1>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {data
+              .filter((val) => {
+                if (searchTerm == "") {
+                  return val;
+                } else if (
+                  val.title.toLowerCase().includes(searchTerm.toLowerCase())
+                ) {
+                  return val;
+                }
+              })
+              .map((item) => (
+                <Card
+                  key={item.id}
+                  title={item.title}
+                  showTime={item.showTime}
+                  uid={item.id}
+                />
+              ))}
+          </div>
+        )}
       </div>
     </>
   );

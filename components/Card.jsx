@@ -1,39 +1,42 @@
-import Image from "next/image"
-import { useEffect, useState } from "react";
+// import Image from "next/image"
+// import { useEffect, useState } from "react";
 
 const Card = (props) => {
-  const [image, setImage] = useState();
+  // const [image, setImage] = useState();
   
-  useEffect(() => {
-      const fetchImage = async () => {
-        await axios
-          .get(`https://picsum.photos/id/${props.uid}/200/300`)
-          .then(function (res) {
-            setImage(res.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-      };
-      fetchImage();
-    }, []);
+  // useEffect(() => {
+  //     const fetchImage = async () => {
+  //       await axios
+  //         .get(`https://picsum.photos/id/${props.uid}/200/300`)
+  //         .then(function (res) {
+  //           setImage(res.data);
+  //         })
+  //         .catch(function (error) {
+  //           console.log(error);
+  //         })
+  //     };
+  //     fetchImage();
+  //   }, []);
 
   const showTime = new Date(props.showTime).toLocaleDateString()
 
   return (
-    <div className="h-60 max-h-60 rounded-lg border-black border-2 p-4">
+    <div className="relative">
+      <div className="mx-auto h-80">
+        <img src={`https://picsum.photos/id/${props.uid}/200/300`} alt="Movies" className="object-cover h-full w-full  rounded-lg" loading="lazy" />
+      </div>
 
-      {/* <div class="flex-none w-48 relative">
-        <img src="/classic-utility-jacket.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
-      </div> */}
+      {/* <Image src={image} alt={`movies ${props.uid}`} width={500} height={500} loading="lazy" /> */}
 
-      <Image src={image} alt={`movies ${props.uid}`} width={500} height={500} loading="lazy" />
-      <p className="text-center">
-      {props.title}
-      </p>
-      <p className="text-xs mt-4 text-center">
-        Show Time: {showTime}
-      </p>
+      <div className="absolute bottom-0 right-0 left-0 bg-white bg-opacity-80 rounded-b-lg">
+        <p className="text-center mt-3">
+        {props.title}
+        </p>
+        <p className="text-xs mt-2 text-center">
+          Show Time: {showTime}
+        </p>
+        <button className="mt-3 w-full text-center py-2 bg-blue-700 hover:bg-blue-400 text-white rounded-lg">Details</button>
+      </div>
     </div>
   )
 }

@@ -11,7 +11,8 @@ const Card = loadable(() => import("../components/Card"));
 export default function Home() {
   // const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState("");
+
   const item = [
     { title: "Hakuna Matata", id: 1, showTime: new Date() },
     { title: "Lion King", id: 2, showTime: new Date() },
@@ -36,8 +37,10 @@ export default function Home() {
   //   fetchData();
   // }, []);
 
-  const searching = (event) => {
-    setSearchTerm(event.target.value);
+  const onMovieSelect = (event) => {
+    // setSelectedMovie(event);
+    console.log(event);
+    event.preventDefault();
   };
 
   return (
@@ -47,13 +50,13 @@ export default function Home() {
       </Head>
       <div className="py-8 px-6 sm:px-8">
         <h1 className="text-center mb-8 text-4xl">Link aja Movies Database</h1>
-        <SearchBar searching={searching} />
+        <SearchBar onMovieSelect={onMovieSelect} item={item} />
         {loading ? (
           <h1 className="mb-8 text-3xl text-center">Loading...</h1>
         ) : (
           // <h1 className="mb-8 text-3xl text-center">Success</h1>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
             <Card
               key={item[0].id}
               title={item[0].title}

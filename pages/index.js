@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import loadable from "@loadable/component";
 
@@ -8,8 +8,8 @@ import SearchBar from "../components/SearchBar";
 
 const Card = loadable(() => import("../components/Card"));
 
-export default function Home() {
-  const [data, setData] = useState([]);
+export default function Home({ data }) {
+  // const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState("");
 
@@ -22,20 +22,20 @@ export default function Home() {
   //   { title: "Hercules 2", id: 6, showTime: new Date() },
   // ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
-        .then(function (res) {
-          setData(res.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .then(setLoading(false));
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await axios
+  //       .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
+  //       .then(function (res) {
+  //         setData(res.data);
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       })
+  //       .then(setLoading(false));
+  //   };
+  //   fetchData();
+  // }, []);
 
   const onMovieSelect = (movie) => {
     setSelectedMovie(movie);
@@ -49,7 +49,7 @@ export default function Home() {
       <div className="py-8 px-6 sm:px-8">
         <h1 className="text-center mb-8 text-4xl">Link aja Movies Database</h1>
         <SearchBar onMovieSelect={onMovieSelect} item={data} />
-        {loading ? (
+        {!data ? (
           <h1 className="mb-8 text-3xl text-center">Loading...</h1>
         ) : (
           // <h1 className="mb-8 text-3xl text-center">Success</h1>
@@ -96,4 +96,20 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const data = await axios
+    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
+    .then(function (res) {
+      return res.data;
+    })
+    .catch(function (error) {
+      console.error(error);
+      throw new Error("Failed to fetch API");
+    });
+
+  return {
+    props: { data },
+  };
 }

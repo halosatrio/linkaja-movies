@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
@@ -14,13 +14,24 @@ const Card = loadable(() => import("../components/Card"));
 
 export default function Home({ data }) {
   const [selectedMovie, setSelectedMovie] = useState("");
+  const [filtered, setFiltered] = useState([]);
   const [startDate, setStartDate] = useState(new Date("2020/01/01"));
 
   const onMovieSelect = (movie) => {
     setSelectedMovie(movie);
   };
 
-  console.log(startDate);
+  useEffect(() => {
+    if (selectedMovie !== "") {
+      setFiltered(
+        data.filter((val) =>
+          val.title.toLowerCase().includes(selectedMovie.toLowerCase())
+        )
+      );
+    } else {
+      setFiltered([]);
+    }
+  }, [selectedMovie]);
 
   return (
     <>
@@ -31,7 +42,7 @@ export default function Home({ data }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/react-datepicker/2.14.1/react-datepicker.min.css"
         />
       </Head>
-      <div className="py-8 px-6 sm:px-8">
+      <div className="pt-8 px-6 sm:px-8">
         <Header isHome />
         <SearchBar onMovieSelect={onMovieSelect} item={data} />
         <div className="mx-auto flex mt-8 justify-center">
@@ -67,6 +78,11 @@ export default function Home({ data }) {
           </div>
         )}
       </div>
+      {selectedMovie && filtered == false && (
+        <div className="mx-auto mt-2">
+          <h1 className="text-4xl text-center font-bold">Movies Not Found</h1>
+        </div>
+      )}
       <Footer />
     </>
   );

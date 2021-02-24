@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 
 import { getMovies } from "./api/fetch";
 
@@ -32,6 +32,15 @@ export default function Home({ data }) {
       setFiltered([]);
     }
   }, [selectedMovie]);
+
+  const filterDate = data.filter((val) =>
+    dayjs(val.showTime)
+      .format("YYYY-MM-DD")
+      .includes(dayjs(startDate).format("YYYY-MM-DD"))
+  );
+
+  console.log(filterDate);
+  console.log(dayjs(startDate).format("YYYY-MM-DD"));
 
   return (
     <>

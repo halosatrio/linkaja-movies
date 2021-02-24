@@ -1,6 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import loadable from "@loadable/component";
+
+import { getMovies } from "./api/fetch";
 
 import Head from "next/head";
 // import Card from "../components/Card";
@@ -99,16 +100,7 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const data = await axios
-    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
-    .then(function (res) {
-      return res.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      throw new Error("Failed to fetch API");
-    });
-
+  const data = await getMovies();
   return {
     props: { data },
   };

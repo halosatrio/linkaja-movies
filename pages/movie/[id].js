@@ -1,33 +1,15 @@
-import axios from "axios";
+import { getMovies, getMovieDetails } from "../api/fetch";
 
 export async function getStaticPaths() {
-  const data = await axios
-    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
-    .then(function (res) {
-      return res.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      throw new Error("Failed to fetch API - data");
-    });
-
+  const allMovies = await getMovies();
   return {
-    paths: data.map((movie) => `/movie/${movie.id}`) || [],
+    paths: allMovies.map((movie) => `/movie/${movie.id}`) || [],
     fallback: false,
   };
 }
-export async function getStaticProps({ params }) {
-  const id = params.slug;
-  const data = await axios
-    .get(`https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies/${id}`)
-    .then(function (res) {
-      return res.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      throw new Error("Failed to fetch API - details");
-    });
 
+export async function getStaticProps({ params }) {
+  const data = await getMovieDetails(params.id);
   return {
     props: { data },
   };

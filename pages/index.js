@@ -13,6 +13,7 @@ export default function Home({ data }) {
   // const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState("");
+  const [notFound, setNotFound] = useState(false);
 
   // const item = [
   //   { title: "Hakuna Matata", id: 1, showTime: new Date() },
@@ -92,6 +93,11 @@ export default function Home({ data }) {
                   uid={item.id}
                 />
               ))}
+          </div>
+        )}
+        {notFound && (
+          <div className="mx-auto mt-10">
+            <h1 className="text-4xl text-center font-bold">Movie Not Found</h1>
           </div>
         )}
       </div>

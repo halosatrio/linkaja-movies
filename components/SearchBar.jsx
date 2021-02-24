@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link"
 
 const SearchBar = (props) => {
   const {onMovieSelect, item} = props
@@ -22,7 +23,7 @@ const SearchBar = (props) => {
         </button>
     </form>
     {searchTerm !== "" ? (
-      <div className="autocomplete bg-white p-4 border-t">  
+      <div className="autocomplete bg-white px-2 pt-1 pb-2 border-t">  
         <ul>
         {item
           .filter((val) => {
@@ -35,7 +36,13 @@ const SearchBar = (props) => {
             }
           })
           .map((data) => (
-            <li key={data.id}>{data.title}</li>
+            <Link key={data.id} href={`/movie/${data.id}`} passHref>
+              <a>
+                <li className="py-1 mt-1 px-4 text-sm hover:bg-blue-400 cursor-pointer">
+                  {data.title}
+                </li>
+              </a>
+            </Link>
         ))}
         </ul>
       </div>

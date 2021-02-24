@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Card = (props) => {
   const showTime = new Date(props.showTime).toLocaleDateString()
   
@@ -14,7 +16,11 @@ const Card = (props) => {
         <p className="text-xs mt-2 text-center">
           Show Time: {showTime}
         </p>
+        <Link href={`/movie/${props.uid}`} passHref>
+        <a>
         <button className="mt-3 w-full text-center py-2 bg-blue-700 hover:bg-blue-400 text-white rounded-lg">Details</button>
+        </a>
+        </Link>
       </div>
     </div>
   )

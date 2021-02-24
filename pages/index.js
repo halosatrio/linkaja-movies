@@ -4,40 +4,12 @@ import loadable from "@loadable/component";
 import { getMovies } from "./api/fetch";
 
 import Head from "next/head";
-// import Card from "../components/Card";
 import SearchBar from "../components/SearchBar";
 
 const Card = loadable(() => import("../components/Card"));
 
 export default function Home({ data }) {
-  // const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState("");
-  const [notFound, setNotFound] = useState(false);
-
-  // const item = [
-  //   { title: "Hakuna Matata", id: 1, showTime: new Date() },
-  //   { title: "Lion King", id: 2, showTime: new Date() },
-  //   { title: "Hercules", id: 3, showTime: new Date() },
-  //   { title: "Hakuna Matata 2", id: 4, showTime: new Date() },
-  //   { title: "Lion King 2", id: 5, showTime: new Date() },
-  //   { title: "Hercules 2", id: 6, showTime: new Date() },
-  // ];
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await axios
-  //       .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
-  //       .then(function (res) {
-  //         setData(res.data);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       })
-  //       .then(setLoading(false));
-  //   };
-  //   fetchData();
-  // }, []);
 
   const onMovieSelect = (movie) => {
     setSelectedMovie(movie);
@@ -54,27 +26,7 @@ export default function Home({ data }) {
         {!data ? (
           <h1 className="mb-8 text-3xl text-center">Loading...</h1>
         ) : (
-          // <h1 className="mb-8 text-3xl text-center">Success</h1>
-
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-            {/* {item
-              .filter((val) => {
-                if (selectedMovie == "") {
-                  return val;
-                } else if (
-                  val.title.toLowerCase().includes(selectedMovie.toLowerCase())
-                ) {
-                  return val;
-                }
-              })
-              .map((item) => (
-                <Card
-                  key={item.id}
-                  title={item.title}
-                  showTime={item.showTime}
-                  uid={item.id}
-                />
-              ))} */}
             {data
               .filter((val) => {
                 if (selectedMovie == "") {
@@ -93,11 +45,6 @@ export default function Home({ data }) {
                   uid={item.id}
                 />
               ))}
-          </div>
-        )}
-        {notFound && (
-          <div className="mx-auto mt-10">
-            <h1 className="text-4xl text-center font-bold">Movie Not Found</h1>
           </div>
         )}
       </div>

@@ -3,18 +3,36 @@ import Head from "next/head";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-import { getMovies, getMovieDetails } from "../api/fetch";
-
 export async function getStaticPaths() {
-  const allMovies = await getMovies();
+  const data = await axios
+    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
+    .then(function (res) {
+      return res.data;
+    })
+    .catch(function (error) {
+      console.error(error);
+      throw new Error("Failed to fetch API - data");
+    });
+
   return {
-    paths: allMovies.map((movie) => `/movie/${movie.id}`) || [],
+    paths: data.map((movie) => `/movie/${movie.id}`) || [],
     fallback: false,
   };
 }
 
 export async function getStaticProps({ params }) {
-  const data = await getMovieDetails(params.id);
+  const data = await axios
+    .get(
+      `https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies/${params.id}`
+    )
+    .then(function (res) {
+      return res.data;
+    })
+    .catch(function (error) {
+      console.error(error);
+      throw new Error("Failed to fetch API - details");
+    });
+
   return {
     props: { data },
   };

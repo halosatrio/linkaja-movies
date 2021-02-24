@@ -3,8 +3,6 @@ import loadable from "@loadable/component";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
 
-import { getMovies } from "./api/fetch";
-
 import Head from "next/head";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
@@ -38,9 +36,6 @@ export default function Home({ data }) {
       .format("YYYY-MM-DD")
       .includes(dayjs(startDate).format("YYYY-MM-DD"))
   );
-
-  console.log(filterDate);
-  console.log(dayjs(startDate).format("YYYY-MM-DD"));
 
   return (
     <>
@@ -98,7 +93,16 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const data = await getMovies();
+  const data = await axios
+    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
+    .then(function (res) {
+      return res.data;
+    })
+    .catch(function (error) {
+      console.error(error);
+      throw new Error("Failed to fetch API - data");
+    });
+
   return {
     props: { data },
   };

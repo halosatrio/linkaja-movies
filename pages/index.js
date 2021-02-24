@@ -13,13 +13,11 @@ const Card = loadable(() => import("../components/Card"));
 
 export default function Home({ data }) {
   const [selectedMovie, setSelectedMovie] = useState("");
-  const [filtered, setFiltered] = useState(data);
-  const [startDate, setStartDate] = useState(new Date("2019/12/31"));
-  const [dateSelect, setDateSelect] = useState("");
+  const [filtered, setFiltered] = useState([]);
+  const [startDate, setStartDate] = useState(new Date("2020/01/01"));
 
   const onMovieSelect = (movie) => {
     setSelectedMovie(movie);
-    setDateSelect("");
   };
 
   useEffect(() => {
@@ -29,25 +27,10 @@ export default function Home({ data }) {
           val.title.toLowerCase().includes(selectedMovie.toLowerCase())
         )
       );
+    } else {
+      setFiltered([]);
     }
-    if (dateSelect !== "" && dateSelect !== new Date("2019/12/31")) {
-      setFiltered(
-        data.filter((val) =>
-          dayjs(val.showTime)
-            .format("YYYY-MM-DD")
-            .includes(dayjs(dateSelect).format("YYYY-MM-DD"))
-        )
-      );
-    }
-  }, [dateSelect, selectedMovie]);
-
-  const handleSelectDate = (date) => {
-    setDateSelect(date);
-    setSelectedMovie("");
-  };
-
-  console.log({ filtered });
-  console.log({ selectedMovie });
+  }, [selectedMovie]);
 
   return (
     <>
@@ -65,7 +48,7 @@ export default function Home({ data }) {
           <h3 className="text-md mr-3">Filter movies by show time: </h3>
           <DatePicker
             selected={startDate}
-            onChange={handleSelectDate}
+            onChange={(date) => setStartDate(date)}
             className="py-1 text-sm text-center bg-red-200 rounded-md cursor-pointer"
           />
         </div>
@@ -73,7 +56,7 @@ export default function Home({ data }) {
           <h1 className="mb-8 text-3xl text-center">Loading...</h1>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-            {filtered
+            {data
               .filter((val) => {
                 if (selectedMovie == "") {
                   return val;

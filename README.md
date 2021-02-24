@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Personal Notes
+
+1. the image on the given api url didn't works, so I use another public API which is **[Lorem Picsum](https://picsum.photos/)**
+2. react lazy-load component using library called `loadable`
+
+
 ## Getting Started
 
 1. First, git clone this repository
@@ -25,8 +31,3 @@ yarn run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Personal Notes
-
-1. the image on the given api url didn't works, so I use another public API which is **[Lorem Picsum](https://picsum.photos/)**
-2. react lazy-load component using library called `loadable`

@@ -1,49 +1,18 @@
 import Head from "next/head";
-import axios from "axios";
 import { useRouter } from "next/router";
+import dayjs from "dayjs";
+
+import data from "../../public/movie-list.json";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-export async function getStaticPaths() {
-  const data = await axios
-    .get("https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies")
-    .then(function (res) {
-      return res.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      throw new Error("Failed to fetch API - data");
-    });
-
-  return {
-    paths: data.map((movie) => `/movie/${movie.id}`) || [],
-    fallback: false,
-  };
-}
-
-export async function getStaticProps() {
-  const data = await axios
-    .get(`https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies`)
-    .then(function (res) {
-      return res.data;
-    })
-    .catch(function (error) {
-      console.error(error);
-      throw new Error("Failed to fetch API - details");
-    });
-
-  return {
-    props: { data },
-  };
-}
-
-const MovieDetails = ({ data }) => {
+const MovieDetails = ({ item }) => {
   const router = useRouter();
   const id = router.query.id;
-  const showTime = new Date(data.showTime).toLocaleDateString();
+  const showTime = dayjs(item.showTime).format("DD MMMM YYYY");
 
-  const movie = data[id - 1];
+  const movie = item[id - 1];
 
   return (
     <>
@@ -56,7 +25,7 @@ const MovieDetails = ({ data }) => {
           {movie.title}
         </h1>
         <img
-          src={`https://picsum.photos/id/${movie.id}/400/500`}
+          src={movie.image}
           alt={movie.title}
           className="object-cover h-full w-full rounded-lg mt-4"
           loading="lazy"
@@ -71,3 +40,20 @@ const MovieDetails = ({ data }) => {
 };
 
 export default MovieDetails;
+
+export function getStaticPaths() {
+  const item = data;
+
+  return {
+    paths: item.map((movie) => `/movie/${movie.id}`) || [],
+    fallback: false,
+  };
+}
+
+export function getStaticProps() {
+  const item = data;
+
+  return {
+    props: { item },
+  };
+}

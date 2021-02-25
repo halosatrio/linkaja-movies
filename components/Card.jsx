@@ -1,12 +1,13 @@
 import Link from "next/link";
+import dayjs from "dayjs";
 
 const Card = (props) => {
-  const showTime = new Date(props.showTime).toLocaleDateString()
+  const showTime = dayjs(props.showTime).format("DD-MMM-YYYY");
   
   return (
     <div className="relative">
       <div className="mx-auto h-80">
-        <img src={`https://picsum.photos/id/${props.uid}/200/300`} alt="Movies" className="object-cover h-full w-full rounded-lg" loading="lazy" />
+        <img src={props.thumb} alt="Movies" className="object-cover h-full w-full rounded-lg" loading="lazy" />
       </div>
 
       <div className="absolute bottom-0 right-0 left-0 bg-white bg-opacity-80 rounded-b-lg">

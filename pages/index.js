@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import loadable from "@loadable/component";
+import Head from "next/head";
 import DatePicker from "react-datepicker";
 import dayjs from "dayjs";
-import data from "../public/movie-list.json";
 
-import Head from "next/head";
+import { getMovies } from "./api/data";
+
+import Card from "../components/Card";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const Card = loadable(() => import("../components/Card"));
-
-export default function Home({ item }) {
+export default function Home({ data }) {
   const [selectedMovie, setSelectedMovie] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [startDate, setStartDate] = useState(new Date("2020/01/01"));
@@ -23,7 +22,7 @@ export default function Home({ item }) {
   useEffect(() => {
     if (selectedMovie !== "") {
       setFiltered(
-        item.filter((val) =>
+        data.filter((val) =>
           val.title.toLowerCase().includes(selectedMovie.toLowerCase())
         )
       );
@@ -43,7 +42,7 @@ export default function Home({ item }) {
       </Head>
       <div className="pt-8 px-6 sm:px-8">
         <Header isHome />
-        <SearchBar onMovieSelect={onMovieSelect} item={item} />
+        <SearchBar onMovieSelect={onMovieSelect} item={data} />
         <div className="mx-auto flex mt-8 justify-center">
           <h3 className="text-md mr-3">Filter movies by show time: </h3>
           <DatePicker
@@ -52,11 +51,11 @@ export default function Home({ item }) {
             className="py-1 text-sm text-center bg-red-200 rounded-md cursor-pointer"
           />
         </div>
-        {!item ? (
+        {!data ? (
           <h1 className="mb-8 text-3xl text-center">Loading...</h1>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-            {item
+            {data
               .filter((val) => {
                 if (selectedMovie == "") {
                   return val;
@@ -69,10 +68,9 @@ export default function Home({ item }) {
               .map((item1) => (
                 <Card
                   key={item1.id}
-                  title={item1.title}
-                  showTime={item1.showTime}
-                  thumb={item1.thumb}
+                  image={item1.image}
                   uid={item1.id}
+                  showTime={item1.showTime}
                 />
               ))}
           </div>
@@ -88,10 +86,10 @@ export default function Home({ item }) {
   );
 }
 
-export function getStaticProps() {
-  const item = data;
+export async function getStaticProps() {
+  const data = (await getMovies()) || [];
 
   return {
-    props: { item },
+    props: { data },
   };
 }

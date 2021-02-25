@@ -4,6 +4,5 @@ https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies
 Get detail:
 https://5f50ca542b5a260016e8bfb0.mockapi.io/api/v1/movies/1
 
-
-Themoviedb.org
-https://api.themoviedb.org/3/movie/76341?api_key=2ee2c5b569240ea2a2a879dd9c8a822c
+Get Image
+https://picsum.photos/id/1/400/500

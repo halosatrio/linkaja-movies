@@ -2,17 +2,17 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 
-import data from "../../public/movie-list.json";
+import { getMovies } from "../api/data";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-const MovieDetails = ({ item }) => {
+const MovieDetails = ({ data }) => {
   const router = useRouter();
   const id = router.query.id;
-  const showTime = dayjs(item.showTime).format("DD MMMM YYYY");
+  const showTime = dayjs(data.showTime).format("DD MMMM YYYY");
 
-  const movie = item[id - 1];
+  const movie = data[id - 1];
 
   return (
     <>
@@ -25,7 +25,7 @@ const MovieDetails = ({ item }) => {
           {movie.title}
         </h1>
         <img
-          src={movie.image}
+          src={`https://picsum.photos/id/${movie.image}/400/500`}
           alt={movie.title}
           className="object-cover h-full w-full rounded-lg mt-4"
           loading="lazy"
@@ -41,19 +41,19 @@ const MovieDetails = ({ item }) => {
 
 export default MovieDetails;
 
-export function getStaticPaths() {
-  const item = data;
+export async function getStaticPaths() {
+  const data = await getMovies();
 
   return {
-    paths: item.map((movie) => `/movie/${movie.id}`) || [],
+    paths: data.map((movie) => `/movie/${movie.id}`) || [],
     fallback: false,
   };
 }
 
-export function getStaticProps() {
-  const item = data;
+export async function getStaticProps() {
+  const data = (await getMovies()) || [];
 
   return {
-    props: { item },
+    props: { data },
   };
 }

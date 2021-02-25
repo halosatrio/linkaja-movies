@@ -1,12 +1,19 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## LIVE DEMO
+
+Deployed on [vercel](https://vercel.com/)
+
+You can visit the live demo app here:
+
+> ### [linkaja-movies.vercel.app/](https://linkaja-movies.vercel.app/)
+
 ## Personal Notes
 
 1. the image on the given api url didn't works, so I use another public API which is **[Lorem Picsum](https://picsum.photos/)**
 2. react lazy-load component using library called `loadable`
 
-
-## Getting Started
+## Development on your machine
 
 1. First, git clone this repository
 

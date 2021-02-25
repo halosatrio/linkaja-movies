@@ -72,6 +72,7 @@ export default function Home({ item }) {
                   title={item1.title}
                   showTime={item1.showTime}
                   thumb={item1.thumb}
+                  uid={item1.id}
                 />
               ))}
           </div>

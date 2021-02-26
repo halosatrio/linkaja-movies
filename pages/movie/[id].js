@@ -10,9 +10,9 @@ import Footer from "../../components/Footer";
 const MovieDetails = ({ data }) => {
   const router = useRouter();
   const id = router.query.id;
-  const showTime = dayjs(data.showTime).format("DD MMMM YYYY");
 
   const movie = data[id - 1];
+  const showTime = dayjs(movie.showTime).format("DD MMMM YYYY");
 
   return (
     <>

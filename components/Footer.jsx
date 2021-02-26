@@ -19,7 +19,7 @@ const Footer = () => {
         </a>
         | visit the {" "}
         <a
-          href="https://nextjs.org"
+          href="https://github.com/halosatrio/linkaja-movies"
           className="no-underline font-semibold hover:text-gray-700 text-red-600 hover:underline"
         >
           Project Repo
